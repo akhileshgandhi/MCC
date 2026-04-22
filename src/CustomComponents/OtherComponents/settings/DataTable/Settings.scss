@@ -1,0 +1,37 @@
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected, .ql-snow .ql-toolbar .ql-picker-item:hover, .ql-snow .ql-toolbar
+ .ql-picker-label.ql-active, .ql-snow .ql-toolbar .ql-picker-label:hover, .ql-snow .ql-toolbar button.ql-active, 
+ .ql-snow .ql-toolbar button:focus, .ql-snow .ql-toolbar button:hover, .ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+  .ql-snow.ql-toolbar .ql-picker-item:hover, .ql-snow.ql-toolbar .ql-picker-label.ql-active, .ql-snow.ql-toolbar 
+  .ql-picker-label:hover, .ql-snow.ql-toolbar button.ql-active, .ql-snow.ql-toolbar button:focus, .ql-snow.ql-toolbar button:hover
+{
+        color: #fff !important;
+}
+.ql-toolbar button.ql-active
+{
+     color: #fff !important;
+}
+.ql-snow.ql-toolbar button.ql-active
+{
+    background: transparent !important;
+}
+button .btn-close
+{
+    background: gray !important;
+    color:#000;
+}
+button .btn-submit
+{
+    background: Blue !important;
+    color:#fff;
+}
+button .btn-menu
+{
+   background: Blue !important;
+    color:#fff; 
+}
+
+ .btn-close:hover
+{
+ background-color: transparent !important;
+ color: #000 !important;
+}

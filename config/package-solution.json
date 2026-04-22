@@ -1,0 +1,50 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "metropolitancollege-client-side-solution",
+    "id": "c97907b3-6656-477a-aa47-329c5e3857c9",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.19.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Metropolitancollege description"
+      },
+      "longDescription": {
+        "default": "Metropolitancollege description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "webApiPermissionRequests": [
+      {
+        "resource": "Microsoft Graph",
+        "scope": "User.Read.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "GroupMember.Read.All"
+      }
+    ],
+    "features": [
+      {
+        "title": "metropolitancollege Feature",
+        "description": "The feature that activates elements of the metropolitancollege solution.",
+        "id": "194bf89a-e794-4165-b3fc-de508ebbe23d",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/metropolitancollege.sppkg"
+  }
+}

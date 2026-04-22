@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "metropolitan-college-directory-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/metropolitanCollegeDirectory/MetropolitanCollegeDirectoryWebPart.js",
+          "manifest": "./src/webparts/metropolitanCollegeDirectory/MetropolitanCollegeDirectoryWebPart.manifest.json"
+        }
+      ]
+    },
+    "pu-ms-custom-metropolitan-college-directory-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/puMsCustomMetropolitanCollegeDirectory/PuMsCustomMetropolitanCollegeDirectoryWebPart.js",
+          "manifest": "./src/webparts/puMsCustomMetropolitanCollegeDirectory/PuMsCustomMetropolitanCollegeDirectoryWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {
+    "jquery": {
+      "path": "node_modules/jquery/dist/jquery.min.js",
+      "globalName": "jQuery"
+    },
+    "bootstrap": {
+      "path": "node_modules/bootstrap/dist/js/bootstrap.min.js",
+      "globalName": "bootstrap"
+    },
+    "moment": {
+      "path": "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js",
+      "globalName": "moment"
+    }
+  },
+  "localizedResources": {
+    "MetropolitanCollegeDirectoryWebPartStrings": "lib/webparts/metropolitanCollegeDirectory/loc/{locale}.js",
+    "PuMsCustomMetropolitanCollegeDirectoryWebPartStrings": "lib/webparts/puMsCustomMetropolitanCollegeDirectory/loc/{locale}.js"
+  }
+}

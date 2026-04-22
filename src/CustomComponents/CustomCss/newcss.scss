@@ -1,0 +1,738 @@
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .stack-header,
+  .app-menu,
+  .sidebar,
+  .btn,
+  .notification-dropdown,
+  .profile-dropdown,
+  .sidebar-form {
+    display: none !important;
+  }
+  
+  .content-page .content {
+    margin-left: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  .table {
+    font-size: 10pt;
+  }
+  
+  .card {
+    break-inside: avoid;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible for keyboard navigation */
+.stack-header button:focus-visible,
+.btn:focus-visible,
+.table tbody tr:focus-visible,
+.sidebar-form input:focus-visible,
+.sidebar-form select:focus-visible,
+.sidebar-form textarea:focus-visible {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
+@media (max-width: 767.98px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+  
+  .mobile-hide {
+    display: none !important;
+  }
+  
+  .mobile-full-width {
+    width: 100% !important;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION FIXES
+   ============================================ */
+@media (max-width: 767.98px) and (orientation: landscape) {
+  .stack-header {
+    height: 60px !important;
+    padding: 0.5rem !important;
+  }
+  
+  .content-page .content.pbbbb {
+    padding-top: 60px !important;
+  }
+  
+  .notification-dropdown,
+  .profile-dropdown {
+    max-height: calc(100vh - 60px - 20px);
+  }
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+.spinner-border {
+  width: 2rem;
+  height: 2rem;
+}
+
+@media (max-width: 767.98px) {
+  .spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-width: 0.2em;
+  }
+}
+
+/* Loading overlay for forms */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* ============================================
+   BADGE RESPONSIVE
+   ============================================ */
+@media (max-width: 767.98px) {
+  .badge {
+    font-size: 0.7rem !important;
+    padding: 0.25em 0.5em !important;
+  }
+}/* ============================================
+   STACK HEADER FLEXIBLE LAYOUT
+   ============================================ */
+@media (max-width: 767.98px) {
+  .stack-header {
+    flex-wrap: wrap !important;
+  }
+  
+  .stack-header > div {
+    width: 100%;
+  }
+  
+  .stack-header .d-flex {
+    justify-content: center !important;
+  }
+}
+
+/* ============================================
+   GLASSMORPHISM CARD RESPONSIVE
+   ============================================ */
+@media (max-width: 991.98px) {
+  .card.rounded-4 .row {
+    flex-direction: column;
+  }
+  
+  .card.rounded-4 .col-md-6 {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .card.rounded-4 {
+    margin: 0.5rem;
+  }
+  
+  .card.rounded-4 .card-body {
+    padding: 1.5rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .card.rounded-4 .card-body {
+    padding: 1rem !important;
+  }
+  
+  .card.rounded-4 .btn-lg {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
+/* ============================================
+   DEFINITIONS TABLE RESPONSIVE
+   ============================================ */
+@media (max-width: 767.98px) {
+  .definitions-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .definitions-table {
+    font-size: 0.875rem;
+    min-width: 600px;
+  }
+  
+  .definitions-table td,
+  .definitions-table th {
+    padding: 0.5rem !important;
+  }
+}
+
+/* ============================================
+   IEP DETAIL VIEW RESPONSIVE
+   ============================================ */
+@media (max-width: 767.98px) {
+  .iep-detail-view .card-body {
+    padding: 0.75rem !important;
+  }
+  
+  .iep-detail-view .row {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  
+  .iep-detail-view .col-md-6 {
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* ============================================
+   OPERATIONAL GOALS LIST RESPONSIVE
+   ============================================ */
+@media (max-width: 767.98px) {
+  .operational-goals-list {
+    padding: 0.75rem;
+  }
+  
+  .operational-goals-list .search-bar {
+    margin-bottom: 0.75rem;
+  }
+  
+  .operational-goals-list .btn-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .operational-goals-list .btn-group .btn {
+    width: 100%;
+    margin-bottom: 0.25rem;
+  }
+}/* ============================================
+   CHARTS RESPONSIVE (Recharts)
+   ============================================ */
+@media (max-width: 767.98px) {
+  .recharts-wrapper {
+    width: 100% !important;
+  }
+  
+  .recharts-surface {
+    width: 100% !important;
+  }
+  
+  .recharts-legend-wrapper {
+    position: relative !important;
+  }
+}
+
+/* ============================================
+   DONUT CHART RESPONSIVE
+   ============================================ */
+@media (max-width: 767.98px) {
+  .donut-chart-container {
+    padding: 0.75rem;
+  }
+  
+  .donut-chart-container .card-body {
+    padding: 0.75rem !important;
+  }
+}
+
+/* ============================================
+   BUTTONS RESPONSIVE
+   ============================================ */
+@media (max-width: 767.98px) {
+  .btn-sm {
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.8125rem !important;
+  }
+  
+  .btn-xs {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+  }
+  
+  /* Button groups */
+  .btn-group-sm .btn {
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* ============================================
+   TYPOGRAPHY RESPONSIVE
+   ============================================ */
+@media (max-width: 576px) {
+  .container-fluid h1,
+  .container-fluid .h1 { 
+    font-size: 1.5rem !important; 
+  }
+  
+  .container-fluid h2,
+  .container-fluid .h2 { 
+    font-size: 1.35rem !important; 
+  }
+  
+  .container-fluid h3,
+  .container-fluid .h3 { 
+    font-size: 1.2rem !important; 
+  }
+  
+  .container-fluid h4,
+  .container-fluid .h4 { 
+    font-size: 1.1rem !important; 
+  }
+  
+  .container-fluid h5,
+  .container-fluid .h5 { 
+    font-size: 1rem !important; 
+  }
+  
+  .container-fluid h6,
+  .container-fluid .h6 { 
+    font-size: 0.9rem !important; 
+  }
+}
+
+/* ============================================
+   SPACING UTILITIES FOR CONTENT AREA
+   ============================================ */
+@media (max-width: 767.98px) {
+  .container-fluid.pbbbb {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+  
+  .container-fluid .row {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+  }
+  
+  .container-fluid .row > * {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}/* ============================================
+   RESPONSIVE DASHBOARD STYLES - COMPLEMENTARY
+   Accounts for sticky header at top
+   Does NOT modify existing sidebar styles
+   ============================================ */
+
+/* ============================================
+   ROOT VARIABLES (Additional)
+   ============================================ */
+:root {
+  --dashboard-header-height: 100px;
+  --dashboard-header-mobile: 80px;
+}
+
+/* ============================================
+   STICKY HEADER SPECIFIC STYLES
+   ============================================ */
+.stack-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  background: white !important;
+  border-bottom: 1px solid #e9ecef !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Content padding for sticky header - does not affect sidebar */
+.content-page .content.pbbbb {
+  padding-top: 100px !important;
+}
+
+@media (max-width: 767.98px) {
+  .stack-header {
+    height: 80px !important;
+  }
+  
+  .content-page .content.pbbbb {
+    padding-top: 80px !important;
+  }
+}
+
+@media (orientation: landscape) and (max-width: 767.98px) {
+  .stack-header {
+    height: 60px !important;
+  }
+  
+  .content-page .content.pbbbb {
+    padding-top: 60px !important;
+  }
+}
+
+/* ============================================
+   TABLE RESPONSIVE STYLES
+   ============================================ */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: calc(100vh - var(--dashboard-header-height) - 200px);
+}
+
+@media (max-width: 767.98px) {
+  .table-responsive {
+    max-height: calc(100vh - var(--dashboard-header-mobile) - 150px);
+  }
+  
+  /* Make table cells more compact on mobile */
+  .table-responsive .table td,
+  .table-responsive .table th {
+    padding: 0.5rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  /* Sticky first column on mobile */
+  .table-responsive .table th:first-child,
+  .table-responsive .table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background: inherit;
+  }
+}
+
+/* Table header sticky positioning accounting for main header */
+.table-responsive .table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 98;
+}
+
+/* ============================================
+   CARD LAYOUTS (Additional responsive rules)
+   ============================================ */
+@media (max-width: 575.98px) {
+  /* Extra small devices */
+  .goals-card,
+  .goals-cardActive,
+  .goals-cardCompleted,
+  .goals-cardOverdue,
+  .goals-cardPending,
+  .goals-cardDepartments,
+  .goals-cardUsers {
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media (max-width: 400px) {
+  /* Very small screens - stack all cards */
+  .col-6.col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* ============================================
+   DROPDOWN POSITIONING (Notifications, Profile)
+   ============================================ */
+.notification-dropdown,
+.profile-dropdown {
+  max-height: calc(100vh - var(--dashboard-header-height) - 20px);
+  overflow-y: auto;
+  animation: slideDown 0.2s ease;
+}
+
+@media (max-width: 767.98px) {
+  .notification-dropdown,
+  .profile-dropdown {
+    position: fixed !important;
+    top: var(--dashboard-header-mobile) !important;
+    right: 10px !important;
+    left: 10px !important;
+    width: auto !important;
+    min-width: auto !important;
+    max-width: none !important;
+    max-height: calc(100vh - var(--dashboard-header-mobile) - 20px);
+  }
+}
+
+/* ============================================
+   SIDEBAR FORM (IEP Form) - Overlay on mobile
+   ============================================ */
+.sidebar-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1059;
+  display: none;
+}
+
+.sidebar-form-overlay.show {
+  display: block;
+}
+
+@media (max-width: 767.98px) {
+  .sidebar-form {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1060;
+    animation: slideInRight 0.3s ease;
+  }
+  
+  .sidebar-form .card-body {
+    padding: 1rem;
+  }
+  
+  .sidebar-form .form-group,
+  .sidebar-form .mb-3 {
+    margin-bottom: 0.75rem !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .sidebar-form {
+    position: fixed;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: 450px;
+    max-width: 90vw;
+    overflow-y: auto;
+    z-index: 1060;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    animation: slideInRight 0.3s ease;
+  }
+}
+
+/* ============================================
+   SCROLL BEHAVIOR & STICKY HEADER OFFSET
+   ============================================ */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--dashboard-header-height) + 20px);
+}
+
+@media (max-width: 767.98px) {
+  html {
+    scroll-padding-top: calc(var(--dashboard-header-mobile) + 20px);
+  }
+}
+
+/* Custom scrollbar for better UX */
+.table-responsive::-webkit-scrollbar,
+.sidebar-form::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track,
+.sidebar-form::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.table-responsive::-webkit-scrollbar-thumb,
+.sidebar-form::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover,
+.sidebar-form::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .sidebar,
+  .app-menu,
+  .header-top,
+  .btn,
+  .notification-dropdown,
+  .profile-dropdown {
+    display: none !important;
+  }
+  
+  .content {
+    margin-left: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  .table {
+    font-size: 10pt;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
+@media (max-width: 767.98px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+  
+  .mobile-hide {
+    display: none !important;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.notification-dropdown,
+.profile-dropdown {
+  animation: slideDown 0.2s ease;
+}
+
+.sidebar-form {
+  animation: slideInRight 0.3s ease;
+}
+
+/* ============================================
+   LANDSCAPE ORIENTATION
+   ============================================ */
+@media (max-width: 767.98px) and (orientation: landscape) {
+  .header-top.navbar {
+    height: 60px;
+  }
+  
+  :root {
+    --header-height: 60px;
+  }
+  
+  .content {
+    min-height: calc(100vh - 60px);
+  }
+}

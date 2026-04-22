@@ -1,0 +1,15 @@
+{
+  "openLoop": {
+    "goalAlignment": "",
+    "hlcCriteria": "",
+    "operationalTactic": "",
+    "performanceMeasure": "",
+    "target": ""
+  },
+  "closeLoop": {
+    "performanceMeasureResults": "",
+    "resultsMet": "",
+    "continuousImprovement": "",
+    "futureBudgetImpact": ""
+  }
+}

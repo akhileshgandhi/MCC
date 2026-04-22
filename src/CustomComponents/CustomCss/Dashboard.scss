@@ -1,0 +1,304 @@
+   .goals-cardActive {
+       background: white;
+       border-radius: 12px;
+       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+       padding: 20px;
+       position: relative;
+       overflow: hidden;
+   }
+
+   .goals-cardCompleted {
+       background: white;
+       border-radius: 12px;
+       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+       padding: 20px;
+       position: relative;
+       overflow: hidden;
+   }
+
+   .goals-cardOverdue {
+       background: white;
+       border-radius: 12px;
+       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+       padding: 20px;
+       position: relative;
+       overflow: hidden;
+   }
+
+   .goals-cardPending {
+       background: white;
+       border-radius: 12px;
+       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+       padding: 20px;
+       position: relative;
+       overflow: hidden;
+   }
+   .goals-cardNotDefined {
+       background: white;
+       border-radius: 12px;
+       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+       padding: 20px;
+       position: relative;
+       overflow: hidden;
+   }
+   .goals-cardDepartments {
+       background: white;
+       border-radius: 12px;
+       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+       padding: 20px;
+       position: relative;
+       overflow: hidden;
+   }
+
+   .goals-cardUsers {
+       background: white;
+       border-radius: 12px;
+       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+       padding: 20px;
+       position: relative;
+       overflow: hidden;
+   }
+
+   .goals-cardActive::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       height: 4px;
+       background: linear-gradient(to right, #2563EB, #5182ec);
+   }
+
+   .goals-cardCompleted::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       height: 4px;
+       background: linear-gradient(to right, #16A34A, #3bad65);
+   }
+
+   .goals-cardOverdue::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       height: 4px;
+       background: linear-gradient(to right, #FBBF24, #fcd34d);
+   }
+
+   .goals-cardPending::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       height: 4px;
+       background: linear-gradient(to right, #DC2626, #f87171);
+   }
+   .goals-cardNotDefined::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       height: 4px;
+       background: linear-gradient(to right, #9CA3AF, #B0B0B0);
+   }
+   .goals-cardDepartments::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       height: 4px;
+       background: linear-gradient(to right, #6366F1, #818cf8);
+   }
+
+   .goals-cardUsers::before {
+       content: '';
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       height: 4px;
+       background: #3B82F6;
+   }
+
+   //    .goals-card::after {
+   //        content: '';
+   //        position: absolute;
+   //        bottom: 0;
+   //        left: 0;
+   //        right: 0;
+   //        height: 4px;
+   //        background: linear-gradient(to right, #ef4444, #f87171);
+   //    }
+
+   .card-header-custom {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin-bottom: 20px;
+   }
+
+   .header-text {
+       color: #6b7280;
+       font-size: 12px;
+       font-weight: 500;
+       text-transform: uppercase;
+       letter-spacing: 0.5px;
+   }
+
+   .icon-buttoncardActive {
+       background: linear-gradient(to right, #2563EB, #5182ec);
+       border: none;
+       border-radius: 8px;
+       min-width: 3rem;
+       height: 40px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       cursor: pointer;
+       transition: background 0.3s;
+   }
+
+   .icon-buttoncardCompleted {
+       background: linear-gradient(to right, #16A34A, #3bad65);
+       border: none;
+       border-radius: 8px;
+       min-width: 3rem;
+       height: 40px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       cursor: pointer;
+       transition: background 0.3s;
+   }
+
+   .icon-buttoncardOverdue {
+       background: linear-gradient(to right, #FBBF24, #fcd34d);
+       border: none;
+       border-radius: 8px;
+       min-width: 3rem;
+       height: 40px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       cursor: pointer;
+       transition: background 0.3s;
+   }
+
+   .icon-buttoncardPending {
+       background: linear-gradient(to right, #DC2626, #f87171);
+       border: none;
+       border-radius: 8px;
+       min-width: 3rem;
+       height: 40px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       cursor: pointer;
+       transition: background 0.3s;
+   }
+  .icon-buttoncardNotDefined {
+       background: linear-gradient(to right, #9CA3AF, #B0B0B0);
+       border: none;
+       border-radius: 8px;
+       min-width: 3rem;
+       height: 40px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       cursor: pointer;
+       transition: background 0.3s;
+   }
+
+   .icon-buttoncardDepartments {
+       background: #6366F1;
+       border: none;
+       border-radius: 8px;
+       min-width: 3rem;
+       height: 40px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       cursor: pointer;
+       transition: background 0.3s;
+   }
+
+   .icon-buttoncardUsers {
+       background: #3B82F6;
+       border: none;
+       border-radius: 8px;
+       min-width: 3rem;
+       height: 40px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       cursor: pointer;
+       transition: background 0.3s;
+   }
+
+   .icon-button:hover {
+       background: #059669;
+   }
+
+   .target-icon {
+       width: 20px;
+       height: 20px;
+   }
+
+   .goals-number {
+       font-size: 40px;
+       font-weight: 600;
+       color: #111827;
+       text-align: center;
+    //    margin: 20px 0;
+   }
+
+   .status-text {
+       text-align: center;
+       color: #6b7280;
+       font-size: 14px;
+       font-weight: 400;
+   }
+
+   // 5-Column responsive grid for goals cards
+   .goals-cards-container {
+       display: flex;
+       flex-wrap: wrap;
+       gap: 12px;
+       margin-bottom: 2rem;
+   }
+
+   .goals-card-wrapper {
+       flex: 1 1 calc(20% - 10px);
+       min-width: 180px;
+   }
+
+   @media (max-width: 1400px) {
+       .goals-card-wrapper {
+           flex: 1 1 calc(25% - 10px);
+       }
+   }
+
+   @media (max-width: 1200px) {
+       .goals-card-wrapper {
+           flex: 1 1 calc(33.333% - 10px);
+       }
+   }
+
+   @media (max-width: 768px) {
+       .goals-card-wrapper {
+           flex: 1 1 calc(50% - 10px);
+       }
+   }
+
+   @media (max-width: 576px) {
+       .goals-card-wrapper {
+           flex: 1 1 100%;
+       }
+   }

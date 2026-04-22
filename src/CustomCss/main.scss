@@ -1,0 +1,16 @@
+@font-face {
+  font-family: 'Figtree';
+  src: url('../CustomAssets/CustomFonts/Figtree/Figtree-Italic-VariableFont_wght.ttf') format('truetype');
+  src: url('../CustomAssets/CustomFonts/Figtree/Figtree-VariableFont_wght.ttf') format('truetype');
+}
+
+#s4-workspace {
+  background-color: #ededed!important;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Figtree", sans-serif !important;
+}
