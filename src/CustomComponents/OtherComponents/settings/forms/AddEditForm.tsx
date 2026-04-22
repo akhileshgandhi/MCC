@@ -4,8 +4,9 @@ import { Save } from "lucide-react";
 import Select from "react-select"; // ADDED: For searchable dropdowns
 import "react-quill/dist/quill.snow.css";
 // import "react-select/dist/react-select.css"; // Optional: default styles
+import { AddEditFormProps } from '../../../../types/AddEditFormProps';
 
-const AddEditForm = ({
+const AddEditForm: React.FC<AddEditFormProps> = ({
   show,
   currentForm,
   editingId,

@@ -6,6 +6,7 @@ import { X } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import Swal from 'sweetalert2';
 import 'react-quill/dist/quill.snow.css';
+import { NewGoalModalProps } from '../../../types/NewGoalModalProps';
 
 const getAcademicYearLabel = (date = new Date()): string => {
   const year = date.getFullYear();
@@ -31,14 +32,6 @@ const normalizeYearLabel = (input?: string | number | null): string | null => {
   }
   return null;
 };
-
-interface NewGoalModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (data: any) => void;
-  loading: boolean;
-  existingGoals?: any[]; // ← optional prop for validation
-}
 
 const NewGoalModal = ({
   isOpen,

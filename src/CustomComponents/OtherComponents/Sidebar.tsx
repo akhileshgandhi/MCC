@@ -1,7 +1,7 @@
 import React from 'react';
 import { Search, ChevronRight, ChevronDown, FileText, Archive } from 'lucide-react';
 import "../CustomCss/Sidebar.scss";
-import { ArchivedIEPHierarchy } from '../../APIsServices/ArchivedIEPService';
+import { ArchivedIEPHierarchy } from '../../types/ArchivedIEPServiceTypes';
 import { HierarchicalItem } from '../../types/HierarchicalItem';
 import { SharePointIEP } from '../../types/SharePointIEP';
 import { SidebarProps } from '../../types/SidebarProps';

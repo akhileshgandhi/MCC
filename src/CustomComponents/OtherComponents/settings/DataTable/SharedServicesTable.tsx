@@ -2,21 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { Edit2, Trash2, Search, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import DOMPurify from 'dompurify'; // ✅ Import DOMPurify
-interface Service {
-  Id: number;
-  ThreeYRSharedService: string;
-  DepartmentId: number | null;
-  DepartmentName: string;
-}
-interface Props {
-  sharedServices: Service[];
-  departments: { id: number; departmentName: string }[];
-  onEdit: (item: Service) => void;
-  onDelete: (id: number) => void;
-}
-
-type SortField = 'ThreeYRSharedService' | 'DepartmentName';
-type SortDirection = 'asc' | 'desc' | null;
+import { SharedServicesTableProps, Service, SortField, SortDirection } from '../../../../types/SharedServicesTableProps';
 
 const getDeptName = (deptId: number | null, depts: any) => {
   if (!deptId) return '—';
@@ -24,7 +10,7 @@ const getDeptName = (deptId: number | null, depts: any) => {
   return d?.DepartmentName ?? `ID:${deptId}`;
 };
 
-const SharedServicesTable = ({ sharedServices, departments, onEdit, onDelete }: Props) => {
+const SharedServicesTable = ({ sharedServices, departments, onEdit, onDelete }: SharedServicesTableProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);

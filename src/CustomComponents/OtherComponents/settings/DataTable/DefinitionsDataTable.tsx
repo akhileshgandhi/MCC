@@ -2,15 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { Edit2, Trash2, Search, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import DOMPurify from 'dompurify';
-
-interface DefinitionsDataTableProps {
-  definitions: any[];
-  onEdit: (item: any) => void;
-  onDelete: (id: number) => void;
-}
-
-type SortField = 'Term' | 'Definition' | 'Section';
-type SortDirection = 'asc' | 'desc' | null;
+import { DefinitionsDataTableProps, SortField, SortDirection } from '../../../../types/DefinitionsDataTableProps';
 
 const DefinitionsDataTable: React.FC<DefinitionsDataTableProps> = ({ definitions, onEdit, onDelete }) => {
   const [searchQuery, setSearchQuery] = useState('');

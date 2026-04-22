@@ -1,26 +1,13 @@
 // src/OtherComponents/DonutChartLegendDemo/DonutChartLegendDemo.tsx
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
-
-interface DonutData {
-  name: string;
-  value: number;
-  color: string;
-}
-
-interface DonutChartProps {
-  title: string;
-  subTitle?: string;
-  data: DonutData[];
-  height?: number;
-  footer?: React.ReactNode;
-}
+import { DonutData, DonutChartProps } from '../../../types/DonutChartLegendDemoProps';
 
 /**
  * Donut chart with legend.
  * Shows a friendly message when there is no data.
  */
-const DonutChart: React.FC<DonutChartProps> = ({ title, subTitle, data, height=400, footer }:any) => {
+const DonutChart: React.FC<DonutChartProps> = ({ title, subTitle, data, height=400, footer }) => {
   // Custom legend renderer for better text wrapping and layout
   const renderCustomLegend = (props: any) => {
     const { payload } = props;

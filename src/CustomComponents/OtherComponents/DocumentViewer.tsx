@@ -1,12 +1,6 @@
 import React from 'react';
 import { X, Download, ExternalLink, Maximize2 } from 'lucide-react';
-
-interface DocumentViewerProps {
-  isOpen: boolean;
-  onClose: () => void;
-  documentUrl: string | null;
-  isMobile?: boolean;
-}
+import { DocumentViewerProps } from '../../types/DocumentViewerProps';
 
 const DocumentViewer: React.FC<DocumentViewerProps> = ({
   isOpen,

@@ -1,27 +1,9 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { Edit2, Trash2, Search, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import DOMPurify from 'dompurify'; // ✅ Import DOMPurify
+import { DepartmentsTableProps, Dept, SortField, SortDirection } from '../../../../types/DepartmentsTableProps';
 
-interface Dept {
-  Id: number;
-  DepartmentName: string;
-  HeadOfDepartment: string;
-  HeadOfDepartmentId: number | null;
-  DepartmentShortName: string;
-  Vision: string;
-  Mission: string;
-}
-interface Props {
-  departments: Dept[];
-  siteUsers: { id: number; title: string }[];
-  onEdit: (item: Dept) => void;
-  onDelete: (id: number) => void;
-}
-
-type SortField = 'DepartmentName' | 'HeadOfDepartment' | 'DepartmentShortName' | 'Vision' | 'Mission';
-type SortDirection = 'asc' | 'desc' | null;
-
-const DepartmentsTable = ({ departments, siteUsers, onEdit, onDelete }: Props) => {
+const DepartmentsTable = ({ departments, siteUsers, onEdit, onDelete }: DepartmentsTableProps) => {
   debugger
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField | null>(null);

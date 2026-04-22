@@ -2,22 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { Edit2, Trash2, Search, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import DOMPurify from 'dompurify'; // ✅ Import DOMPurify
-
-interface OrgGoal {
-  Id: string | number;
-  OrganizationalGoalAlignment: string;
-  Value: string;
-  Tag?: string;
-}
-
-interface OrgGoalsTableProps {
-  orgGoals: OrgGoal[];
-  onEdit: (goal: OrgGoal) => void;
-  onDelete: (id: string | number) => void;
-}
-
-type SortField = 'OrganizationalGoalAlignment' | 'Value' | 'Tag';
-type SortDirection = 'asc' | 'desc' | null;
+import { OrgGoalsTableProps, OrgGoal, SortField, SortDirection } from '../../../../types/OrgGoalsTableProps';
 
 const OrgGoalsTable: React.FC<OrgGoalsTableProps> = ({ orgGoals, onEdit, onDelete }) => {
   const [searchQuery, setSearchQuery] = useState('');

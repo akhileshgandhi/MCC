@@ -1,13 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Edit2, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
 import DOMPurify from 'dompurify';
-
-interface GlobalGoalsTableProps {
-  data: any[];
-  onEdit: (goal: any) => void;
-  onDelete: (id: number) => void;
-  currentUser: any;
-}
+import { GlobalGoalsTableProps } from '../../../../types/GlobalGoalsTableProps';
 
 const GlobalGoalsTable: React.FC<GlobalGoalsTableProps> = ({ data, onEdit, onDelete, currentUser }) => {
   const [searchQuery, setSearchQuery] = useState('');

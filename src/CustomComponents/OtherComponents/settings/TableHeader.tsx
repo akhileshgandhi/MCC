@@ -1,8 +1,9 @@
 // src/components/settings/TableHeader.jsx
 import React from 'react';
 import { Plus } from 'lucide-react';
+import { TableHeaderProps } from '../../../types/TableHeaderProps';
 
-const TableHeader = ({ title, onAdd, hideAdd = false }) => (
+const TableHeader: React.FC<TableHeaderProps> = ({ title, onAdd, hideAdd = false }) => (
   <div className="d-flex justify-content-between align-items-center p-2 border-bottom">
     <h5 className="mb-0">{title}</h5>
     {!hideAdd && (

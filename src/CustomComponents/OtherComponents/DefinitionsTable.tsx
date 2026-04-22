@@ -4,11 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@pnp/sp/webs';
 import '@pnp/sp/lists';
 import '@pnp/sp/items';
-
-interface DefinitionsTableProps {
-  sp: any;
-  exportMode?: boolean;
-}
+import { DefinitionsTableProps } from '../../types/DefinitionsTableProps';
 
 export default function DefinitionsTable({ sp, exportMode = false }: DefinitionsTableProps) {
   const [section1Data, setSection1Data] = useState([]);

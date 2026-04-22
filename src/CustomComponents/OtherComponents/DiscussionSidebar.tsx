@@ -11,6 +11,7 @@ import {
   createDiscussionReply 
 } from '../../APIsServices/DiscussionAPI';
 import UserMentionPicker from './UserMentionPicker';
+import { DiscussionSidebarProps, Comment } from '../../types/DiscussionSidebarProps';
 
 // Placeholder UserMentionPicker component
 // const UserMentionPicker: React.FC<{
@@ -29,27 +30,6 @@ import UserMentionPicker from './UserMentionPicker';
 //     </div>
 //   );
 // };
-
-interface DiscussionSidebarProps {
-  sp: any;
-  iepId: number;
-  departmentId: number;
-  currentUser: any;
-  isMobile?: boolean;
-}
-
-interface Comment {
-  Id: number;
-  Comment: string;
-  ParentCommentId?: number;
-  Author: {
-    Id: number;
-    Title: string;
-  };
-  Created: string;
-  MentionedUsers?: any[];
-  replies?: Comment[];
-}
 
 const DiscussionSidebar: React.FC<DiscussionSidebarProps> = ({ 
   sp, 

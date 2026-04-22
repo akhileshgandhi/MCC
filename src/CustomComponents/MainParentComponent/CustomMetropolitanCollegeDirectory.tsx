@@ -12,7 +12,8 @@ import { Sidebar } from '../OtherComponents/Sidebar';
 import "../CustomCss/Dashboard.scss";
 import NewGoalModal from '../OtherComponents/AddEditFormComponent/NewGoalModal';
 import { createOrganizationalGoal, fetchUsersListAs, getDepartments, getIEPs, getOrganizationalScorecards, RecentActivities, getAllSubDepartments, getAllSubSubDepartments } from "../../APIsServices/OrgnaizationAPI";
-import { getArchivedIEPs, openArchivedDocument, ArchivedIEPHierarchy } from "../../APIsServices/ArchivedIEPService";
+import { getArchivedIEPs, openArchivedDocument } from "../../APIsServices/ArchivedIEPService";
+import { ArchivedIEPHierarchy } from "../../types/ArchivedIEPServiceTypes";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserProfileModal from '../OtherComponents/UserProfileModal';
@@ -81,13 +82,7 @@ const extractScorecardId = (scorecardKey: string | null) => {
 import { SPFI } from '@pnp/sp';
 import { GraphFI } from '@pnp/graph';
 import { isUserInADGroup } from '../../APIsServices/GraphService';
-
-interface ICustomMetropolitanCollegeDirectoryProps {
-  sp: SPFI;
-  graph: GraphFI;
-  role: string;
-  context?: any;
-}
+import { ICustomMetropolitanCollegeDirectoryProps } from '../../types/CustomMetropolitanCollegeDirectoryProps';
 
 const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDirectoryProps> = ({ sp, graph, role, context }) => {
   const [searchTerm, setSearchTerm] = useState('');

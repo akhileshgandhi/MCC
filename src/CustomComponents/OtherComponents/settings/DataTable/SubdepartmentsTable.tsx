@@ -2,26 +2,9 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { Edit2, Trash2, Search, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import DOMPurify from 'dompurify';
+import { SubdepartmentsTableProps, Subdept, SortField, SortDirection } from '../../../../types/SubdepartmentsTableProps';
 
-interface Subdept {
-  Id: number;
-  SubDepartmentName: string;
-  DepartmentId: number | null;
-  DepartmentShortName: string;
-  Remark: string;
-}
-
-interface Props {
-  subdepartments: Subdept[];
-  departments: { Id: number; DepartmentShortName: string }[];
-  onEdit: (item: Subdept) => void;
-  onDelete: (id: number) => void;
-}
-
-type SortField = 'SubDepartmentName' | 'Department' | 'Remark';
-type SortDirection = 'asc' | 'desc' | null;
-
-const SubdepartmentsTable = ({ subdepartments, departments, onEdit, onDelete }: Props) => {
+const SubdepartmentsTable = ({ subdepartments, departments, onEdit, onDelete }: SubdepartmentsTableProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);

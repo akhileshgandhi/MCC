@@ -1,43 +1,7 @@
 import { SPFI } from "@pnp/sp/presets/all";
 import "@pnp/sp/files";
 import "@pnp/sp/folders";
-
-/**
- * Interface for archived IEP document
- */
-export interface ArchivedIEPDocument {
-  Id: number;
-  Name: string;
-  ServerRelativeUrl: string;
-  TimeCreated: string;
-  TimeLastModified: string;
-  ModifiedBy: string;
-  Length: number;
-}
-
-/**
- * Interface for archived IEP folder structure
- */
-export interface ArchivedIEPFolder {
-  Name: string;
-  ServerRelativeUrl: string;
-  ItemCount: number;
-  Files?: ArchivedIEPDocument[];
-  SubFolders?: ArchivedIEPFolder[];
-}
-
-/**
- * Interface for hierarchical archived IEP data
- */
-export interface ArchivedIEPHierarchy {
-  id: string;
-  name: string;
-  year: string;
-  type: 'year' | 'department' | 'document';
-  children?: ArchivedIEPHierarchy[];
-  documentUrl?: string;
-  itemCount?: number;
-}
+import { ArchivedIEPDocument, ArchivedIEPFolder, ArchivedIEPHierarchy } from '../types/ArchivedIEPServiceTypes';
 
 /**
  * Fetch all archived IEPs from SharePoint Document Library

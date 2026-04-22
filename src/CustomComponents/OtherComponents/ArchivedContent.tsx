@@ -1,13 +1,6 @@
 import React from 'react';
 import { Archive, FileText, Calendar, Building, Download, ExternalLink } from 'lucide-react';
-import { ArchivedIEPHierarchy } from '../../APIsServices/ArchivedIEPService';
-
-interface ArchivedContentProps {
-  archivedIEPs: ArchivedIEPHierarchy[];
-  selectedArchivedYear?: string | null;
-  onDocumentClick: (documentId: string, documentUrl: string) => void;
-  isMobile?: boolean;
-}
+import { ArchivedContentProps } from '../../types/ArchivedContentProps';
 
 const ArchivedContent: React.FC<ArchivedContentProps> = ({
   archivedIEPs,

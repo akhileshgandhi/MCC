@@ -1,6 +1,6 @@
 import { HierarchicalItem } from './HierarchicalItem';
 import { SharePointIEP } from './SharePointIEP';
-import { ArchivedIEPHierarchy } from '../APIsServices/ArchivedIEPService';
+import { ArchivedIEPHierarchy } from './ArchivedIEPServiceTypes';
 
 export interface SidebarProps {
   sidebarOpen: boolean;

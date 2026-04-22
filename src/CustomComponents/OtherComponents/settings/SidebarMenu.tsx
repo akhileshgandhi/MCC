@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
+import { SidebarMenuProps } from '../../../types/SidebarMenuProps';
 
-type Props = {
-  activeMenu: string;
-  setActiveMenu: (menu: string) => void;
-};
-
-const SidebarMenu: React.FC<Props> = ({ activeMenu, setActiveMenu }) => {
+const SidebarMenu: React.FC<SidebarMenuProps> = ({ activeMenu, setActiveMenu }) => {
   const menus = [
     { key: 'users', label: 'User Management', icon: '👥' },
     { key: 'departments', label: 'Departments', icon: '🏢' },
