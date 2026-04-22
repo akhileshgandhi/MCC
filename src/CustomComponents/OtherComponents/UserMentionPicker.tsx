@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { X, Search } from 'lucide-react';
 import { UserMentionPickerProps } from '../../types/UserMentionPickerProps';
 import { User } from '../../types/User';
+import Loader from '../../Common/Loader';
 
 const UserMentionPicker: React.FC<UserMentionPickerProps> = ({ 
   sp, 
@@ -162,9 +163,7 @@ const UserMentionPicker: React.FC<UserMentionPickerProps> = ({
         >
           {loading ? (
             <div className="text-center py-3">
-              <div className="spinner-border spinner-border-sm" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
+              <Loader size="small" />
             </div>
           ) : filteredUsers.length === 0 ? (
             <div className="text-muted text-center py-2" style={{ fontSize: '0.85rem' }}>

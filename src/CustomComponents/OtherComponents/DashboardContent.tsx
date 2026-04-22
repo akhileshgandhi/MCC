@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DonutChartLegendDemo from './DonutChartLegendDemo/DonutChartLegendDemo';
+import Loader from '../../Common/Loader';
 
 const DashboardContent = ({ 
   selectedDepartment, 
@@ -28,9 +29,7 @@ const DashboardContent = ({
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{height: '200px'}}>
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <Loader size="medium" />
       </div>
     );
   }

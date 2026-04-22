@@ -12,6 +12,7 @@ import {
 } from '../../APIsServices/DiscussionAPI';
 import UserMentionPicker from './UserMentionPicker';
 import { DiscussionSidebarProps, Comment } from '../../types/DiscussionSidebarProps';
+import Loader from '../../Common/Loader';
 
 // Placeholder UserMentionPicker component
 // const UserMentionPicker: React.FC<{
@@ -371,9 +372,7 @@ const DiscussionSidebar: React.FC<DiscussionSidebarProps> = ({
           <div className="flex-grow-1 overflow-auto p-3">
             {loading ? (
               <div className="text-center py-5">
-                <div className="spinner-border spinner-border-sm text-primary" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
+                <Loader size="small" />
               </div>
             ) : discussions.length === 0 ? (
               <div className="text-center text-muted py-5">

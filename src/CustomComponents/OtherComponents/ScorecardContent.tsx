@@ -28,34 +28,10 @@ import OperationalGoalsList from './OperationalGoalsList';
 import { Check, PencilLine } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import { Column } from '../../types/IEPTableProps';
+import { IEPFormData, IEP, StatusSegment, SummaryBreakdown } from '../../types/ScorecardContentProps';
+import Loader from '../../Common/Loader';
 
-interface IEPFormData {
-  OperationalGoal: string;
-  OperationalTactic: string;
-  PerformanceMeasure: string;
-  PerformanceMeasureResults: string;
-  ResultsMet: string;
-  ContinuousImprovement: string;
-  FutureBudgetImpact: string;
-  IfYesPleaseDescribe: string;
-  StartDate: string;
-  EndDate: string;
-  Priority: string;
-  Target: string;
-  // BudgetImpactDescription: string;
-  OrganizationalGoals: string;
-  Departments: string;
-  DepartmentsId: number | null;
-  SubDepartmentId: string;
-  SubSubDepartmentId?: string;
-  OrganizationGoalAlignment: string[];
-  HLCAlignment: string[];
-  SharedServiceCampusGoalAlignment: string[];
-  TagId?: string;
-  Tags?: string[];
-}
-
-const STATUS_SEGMENTS = [
+const STATUS_SEGMENTS: StatusSegment[] = [
   { key: 'Completed', label: 'Complete', color: '#28a745' },
   { key: 'Partially Completed', label: 'Partially Complete', color: '#ffc107' },
   { key: 'Not Completed', label: 'Not Complete', color: '#dc3545' },
@@ -440,7 +416,7 @@ const ScorecardContent = ({
   // ──────────────────────────────────────────────────────────────
   // CHART HELPERS
   // ──────────────────────────────────────────────────────────────
-  const getResultsMetData = (ieps: any[]) => {
+  const getResultsMetData = (ieps: IEP[]) => {
     const counts = { Completed: 0, "Partially Completed": 0, "Not Completed": 0, "Not Defined": 0 };
     ieps.forEach(i => {
       const val = i.ResultsMet?.trim() || "Not Defined";
@@ -454,7 +430,7 @@ const ScorecardContent = ({
     ].filter(d => d.value > 0);
   };
 
-  const buildStatusSummary = (records: any[]) => {
+  const buildStatusSummary = (records: IEP[]) => {
     const total = records.length;
     const breakdown = STATUS_SEGMENTS.map(segment => {
       const value = records.filter(
@@ -1571,9 +1547,7 @@ const ScorecardContent = ({
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <Loader size="medium" />
       </div>
     );
   }

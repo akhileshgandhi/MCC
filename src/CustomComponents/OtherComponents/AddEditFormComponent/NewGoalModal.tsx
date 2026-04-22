@@ -7,6 +7,7 @@ import ReactQuill from 'react-quill';
 import Swal from 'sweetalert2';
 import 'react-quill/dist/quill.snow.css';
 import { NewGoalModalProps } from '../../../types/NewGoalModalProps';
+import Loader from '../../../Common/Loader';
 
 const getAcademicYearLabel = (date = new Date()): string => {
   const year = date.getFullYear();
@@ -280,11 +281,7 @@ const NewGoalModal = ({
             disabled={loading}
           >
             {loading && (
-              <span
-                className="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              />
+              <Loader size="small" />
             )}
             {loading ? 'Creating...' : 'Create Goal'}
           </button>

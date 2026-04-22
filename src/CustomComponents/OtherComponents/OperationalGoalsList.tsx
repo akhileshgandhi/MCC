@@ -4,6 +4,7 @@ import DOMPurify from 'dompurify';
 import { stripHtml } from '../HelperCustomComponents/Alluse';
 import IEPDetailsView from './IEPDetailsView';
 import { OperationalGoalsListProps } from '../../types/OperationalGoalsListProps';
+import Loader from '../../Common/Loader';
 
 // Helper function to decode HTML entities and sanitize
 const decodeAndSanitizeHtml = (html: string): string => {
@@ -262,9 +263,7 @@ const OperationalGoalsList: React.FC<OperationalGoalsListProps> = ({
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+        <Loader size="medium" />
       </div>
     );
   }

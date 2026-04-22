@@ -1305,6 +1305,7 @@ import SubSubdepartmentsTable from './DataTable/SubSubdepartmentsTable';
 import GlobalGoalsTable from './DataTable/GlobalGoalsTable';
 import { Edit2, Trash2 } from 'lucide-react';
 import { getADGroupMembers } from '../../../APIsServices/GraphService';
+import Loader from '../../../Common/Loader';
 
 const SettingsContent = ({ sp, graph, context }: any) => {
   // ────────────────────── State ──────────────────────
@@ -2649,12 +2650,7 @@ const SettingsContent = ({ sp, graph, context }: any) => {
           justifyContent: 'center',
           zIndex: 9999
         }}>
-          <div className="spinner-border text-light" role="status" style={{ width: '3rem', height: '3rem' }}>
-            <span className="visually-hidden">Loading...</span>
-          </div>
-          <div className="text-light mt-3" style={{ fontSize: '1.2rem', fontWeight: 500 }}>
-            Creating IEP entries for all departments...
-          </div>
+          <Loader size="large" color="#ffffff" text="Creating IEP entries for all departments..." />
           <div className="text-light mt-2" style={{ fontSize: '0.9rem', opacity: 0.8 }}>
             Please wait, this may take a moment
           </div>

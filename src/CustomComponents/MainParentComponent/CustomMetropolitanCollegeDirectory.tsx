@@ -11,6 +11,15 @@ import DocumentViewer from '../OtherComponents/DocumentViewer';
 import { Sidebar } from '../OtherComponents/Sidebar';
 import "../CustomCss/Dashboard.scss";
 import NewGoalModal from '../OtherComponents/AddEditFormComponent/NewGoalModal';
+import Loader from '../../Common/Loader';
+import { getUserInitials } from '../../utils/getUserInitials';
+import { handleLogout } from '../../utils/handleLogout';
+import { parseSharePointDate } from '../../utils/parseSharePointDate';
+import { getAcademicYearLabel, normalizeYearLabel, DEFAULT_SCORECARD_KEYWORD, getDefaultScorecardKey, extractScorecardId } from '../../utils/scorecardHelpers';
+import { getIEPStatus, getRecentIEPGoals } from '../../utils/iepHelpers';
+import { extractScorecardIdFromKey, extractDepartmentIdFromKey, extractSubDepartmentIdFromKey, extractSubSubDepartmentIdFromKey } from '../../utils/idHelpers';
+import { filterIEPsByScorecard, filterIEPsByDepartment, filterIEPsByScorecardAndDepartment, filterIEPsBySubDepartment, filterIEPsBySubDepartments } from '../../utils/filterHelpers';
+import { clearViewStates, closeSidebarOnMobile, resetSelectionStates } from '../../utils/viewHelpers';
 import { createOrganizationalGoal, fetchUsersListAs, getDepartments, getIEPs, getOrganizationalScorecards, RecentActivities, getAllSubDepartments, getAllSubSubDepartments } from "../../APIsServices/OrgnaizationAPI";
 import { getArchivedIEPs, openArchivedDocument } from "../../APIsServices/ArchivedIEPService";
 import { ArchivedIEPHierarchy } from "../../types/ArchivedIEPServiceTypes";
@@ -35,49 +44,6 @@ declare global {
     };
   }
 }
-
-const getAcademicYearLabel = (date = new Date()): string => {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const startYear = month >= 5 ? year : year - 1;
-  return `${startYear}-${startYear + 1}`;
-};
-
-const normalizeYearLabel = (input?: string | number | null): string | null => {
-  if (input === null || input === undefined) return null;
-  const cleaned = String(input).trim();
-  if (!cleaned) return null;
-  const noSpaces = cleaned.replace(/\s+/g, '');
-  if (/^\d{4}-\d{4}$/.test(noSpaces)) return noSpaces;
-  if (/^\d{4}$/.test(noSpaces)) {
-    const startYear = Number(noSpaces);
-    return `${startYear}-${startYear + 1}`;
-  }
-  const match = noSpaces.match(/\d{4}/);
-  if (match) {
-    const startYear = Number(match[0]);
-    return `${startYear}-${startYear + 1}`;
-  }
-  return null;
-};
-
-const DEFAULT_SCORECARD_KEYWORD = 'mcc';
-
-const getDefaultScorecardKey = (scorecardsData: any[] = []) => {
-  if (!scorecardsData.length) return null;
-  const preferred = scorecardsData.find(
-    (scorecard: any) => scorecard?.ScorecardName?.toLowerCase().includes(DEFAULT_SCORECARD_KEYWORD)
-  );
-  const target = preferred || scorecardsData[0];
-  return target?.Id ? `scorecard-${target.Id}` : null;
-};
-
-const extractScorecardId = (scorecardKey: string | null) => {
-  if (!scorecardKey) return null;
-  const numeric = scorecardKey.replace('scorecard-', '');
-  const parsed = parseInt(numeric, 10);
-  return Number.isNaN(parsed) ? null : parsed;
-};
 
 import { SPFI } from '@pnp/sp';
 import { GraphFI } from '@pnp/graph';
@@ -220,6 +186,102 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
         u.User?.LoginName === currentUser.LoginName
     );
     return rec?.Departments?.Id ?? rec?.Departments ?? null;
+  };
+
+  const toggleSection = (id) => {
+    setExpandedSections(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  // NEW: Check if any detail view is open
+  const isDetailViewOpen = () => {
+    return showCharts || showOperationalGoalsList || selectedIEPDetail !== null;
+  };
+
+  // NEW: Immediate navigation without checking detail views
+  const handleDepartmentClickImmediate = (deptId, deptName) => {
+    setSelectedDepartment(deptId);
+    setSelectedIEP(null);
+    setSelectedIEPName('');
+    clearViewStates(setShowCharts, setShowOperationalGoalsList, setSelectedIEPDetail, setChartDeptId, setShowDistrictCharts);
+
+    const scId = extractScorecardIdFromKey(selectedScorecard);
+    const deptIdNumeric = extractDepartmentIdFromKey(deptId);
+    
+    if (activePage === 'scorecard' && scId !== null) {
+      const filtered = filterIEPsByScorecardAndDepartment(masterAllIEPs, scId, deptIdNumeric);
+      setDisplayedIEPs(filtered);
+    } else {
+      const filtered = filterIEPsByDepartment(masterAllIEPs, deptIdNumeric);
+      setDisplayedIEPs(filtered);
+      if (activePage !== 'scorecard') setSelectedScorecard(null);
+    }
+    closeSidebarOnMobile(isMobile, setSidebarOpen);
+  };
+
+  // NEW: Immediate navigation
+  const handleScorecardClickImmediate = (scoreId) => {
+    setSelectedScorecard(scoreId);
+    setSelectedDepartment(null);
+    setSelectedIEP(null);
+    setSelectedIEPName('');
+    clearViewStates(setShowCharts, setShowOperationalGoalsList, setSelectedIEPDetail, setChartDeptId, setShowDistrictCharts);
+    
+    const scId = extractScorecardIdFromKey(scoreId);
+    const filtered = filterIEPsByScorecard(masterAllIEPs, scId);
+    setDisplayedIEPs(filtered);
+    closeSidebarOnMobile(isMobile, setSidebarOpen);
+  };
+
+  // NEW: Immediate navigation
+  const handleIEPClickImmediate = (scorecardId: string, deptId: string, tagId: string, tagName: string) => {
+    setSelectedScorecard(scorecardId);
+    setSelectedDepartment(deptId);
+    setSelectedIEP(tagId);
+    setSelectedIEPName(tagName);
+    clearViewStates(setShowCharts, setShowOperationalGoalsList, setSelectedIEPDetail, setChartDeptId, setShowDistrictCharts);
+
+    const newExpandedSections = { ...expandedSections };
+    newExpandedSections[scorecardId] = true;
+    newExpandedSections[deptId] = true;
+
+    if (tagId?.startsWith('sub-')) {
+      newExpandedSections[tagId] = true;
+    }
+
+    if (tagId?.startsWith('subsub-')) {
+      const parts = tagId.replace('subsub-', '').split('-');
+      const subId = `sub-${parts[0]}`;
+      newExpandedSections[subId] = true;
+      newExpandedSections[tagId] = true;
+    }
+
+    if (tagId?.startsWith('tag-')) {
+      newExpandedSections[tagId] = true;
+    }
+
+    setExpandedSections(newExpandedSections);
+
+    const scId = extractScorecardIdFromKey(scorecardId);
+    const deptNumeric = extractDepartmentIdFromKey(deptId);
+    let filtered = filterIEPsByScorecardAndDepartment(masterAllIEPs, scId, deptNumeric);
+
+    // Handle tag clicks (from OrganizationGoalAlignment)
+    if (tagId?.startsWith('tag-')) {
+      const tagNameFromId = tagId.replace('tag-', '');
+      filtered = filtered.filter(iep => {
+        const orgAlignments = iep.OrganizationGoalAlignment || [];
+        return orgAlignments.some((org: any) => org.Tag?.trim() === tagNameFromId);
+      });
+    } else if (tagId?.startsWith('subsub-')) {
+      const subId = extractSubDepartmentIdFromKey(tagId);
+      const ssId = extractSubSubDepartmentIdFromKey(tagId);
+      filtered = filterIEPsBySubDepartments(filtered, subId, ssId);
+    } else if (tagId?.startsWith('sub-')) {
+      const subId = extractSubDepartmentIdFromKey(tagId);
+      filtered = filterIEPsBySubDepartment(filtered, subId);
+    }
+    setDisplayedIEPs(filtered);
+    closeSidebarOnMobile(isMobile, setSidebarOpen);
   };
 
   const loadAllData = async () => {
@@ -448,11 +510,7 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
   };
 
   const getScorecardData = () => {
-    console.log('[getScorecardData] organizationalScorecards:', organizationalScorecards);
-    console.log('[getScorecardData] masterAllIEPs:', masterAllIEPs);
-    console.log('[getScorecardData] departments:', departments);
-    console.log('[getScorecardData] allSubDepartments:', allSubDepartments);
-    console.log('[getScorecardData] allSubSubDepartments:', allSubSubDepartments);
+
 
     // Sort scorecards by year in descending order (latest first)
     const sortedScorecards = [...(organizationalScorecards || [])].sort((a: any, b: any) => {
@@ -524,23 +582,6 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
     });
   };
 
-  const getIEPStatus = (iep) => {
-    const start = iep.StartDate ? new Date(iep.StartDate).getTime() : 0;
-    const end = iep.EndDate ? new Date(iep.EndDate).getTime() : 0;
-    const now = Date.now();
-
-    // Check ResultsMet status first - it takes priority
-    if (iep.ResultsMet === 'Completed') return 'Completed';
-    if (iep.ResultsMet === 'Partially Completed') return 'Partially Completed';
-    if (iep.ResultsMet === 'Not Defined') return 'Not Defined';
-    if (iep.ResultsMet === 'Not Completed') return 'Not Completed';
-
-    // Then check date-based status
-    if (end && end < now && iep.ResultsMet !== 'Completed') return 'Overdue';
-    if (start && start > now) return 'Upcoming';
-    return 'Active';
-  };
-
   const getCurrentIEPs = () => {
     let filtered = [...displayedIEPs];
     if (selectedScorecard) {
@@ -600,108 +641,32 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
       activeIEPs: finalIEPs.filter(iep => getIEPStatus(iep) === 'Active').length,
       overdueIEPs: finalIEPs.filter(iep => getIEPStatus(iep) === 'Partially Completed').length,
       pendingIEPs: finalIEPs.filter(iep => getIEPStatus(iep) === 'Not Completed').length,
-      notdefinedIEPs: finalIEPs.filter(iep => getIEPStatus(iep) === 'Not Defined').length
-      // totalIEPs: finalIEPs.length,
-      // activeIEPs: finalIEPs.filter(iep => getIEPStatus(iep) === 'Active').length,
-      // completedIEPs: finalIEPs.filter(iep => getIEPStatus(iep) === 'Completed').length,
-      // overdueIEPs: finalIEPs.filter(iep => {
-      //   const end = iep.EndDate ? new Date(iep.EndDate).getTime() : 0;
-      //   return end && end < now && getIEPStatus(iep) !== 'Completed';
-      // }).length,
-      // pendingIEPs: finalIEPs.filter(iep => !iep.StartDate || !iep.EndDate).length,
-      // totalUsers: [...new Set(finalIEPs.map(iep => iep.CreatedBy?.Id).filter(Boolean))].length,
-      // highPriorityIEPs: finalIEPs.filter(iep => iep.Priority === 'High').length
+      notdefinedIEPs: finalIEPs.filter(iep => getIEPStatus(iep) === 'Not Defined').length,
+      totalUsers: [...new Set(finalIEPs.map(iep => iep.CreatedBy?.Id).filter(Boolean))].length,
+      highPriorityIEPs: finalIEPs.filter(iep => iep.Priority === 'High').length
     };
   };
 
   const getScorecardStats = () => {
-    const scoreId = selectedScorecard ? parseInt(selectedScorecard.replace('scorecard-', '')) : null;
-    const scorecardIEPs = scoreId ? displayedIEPs.filter(iep => iep.OrganizationalGoals?.Id === scoreId) : displayedIEPs;
-    const final = scorecardIEPs;
+    const scId = extractScorecardIdFromKey(selectedScorecard);
+    const filteredIEPs = scId !== null ? filterIEPsByScorecard(masterAllIEPs, scId) : masterAllIEPs;
     return {
-      // totalIEPs: final.length,
-      // highPriorityIEPs: final.filter(iep => iep.Priority === 'High').length,
-      // completedIEPs: final.filter(iep => getIEPStatus(iep) === 'Completed').length,
-      // activeIEPs: final.filter(iep => getIEPStatus(iep) === 'Active').length,
-      // participatingDepartments: [...new Set(final.map(iep => iep.Departments?.Id))].filter(Boolean).length
-
-       totalIEPs: final.length,
-      completedIEPs: final.filter(iep => getIEPStatus(iep) === 'Completed').length,
-      activeIEPs: final.filter(iep => getIEPStatus(iep) === 'Active').length,
-      overdueIEPs: final.filter(iep => getIEPStatus(iep) === 'Partially Completed').length,
-      pendingIEPs: final.filter(iep => getIEPStatus(iep) === 'Not Completed').length,
-      notdefinedIEPs: final.filter(iep => getIEPStatus(iep) === 'Not Defined').length
+      totalIEPs: filteredIEPs.length,
+      completedIEPs: filteredIEPs.filter(iep => getIEPStatus(iep) === 'Completed').length,
+      activeIEPs: filteredIEPs.filter(iep => getIEPStatus(iep) === 'Active').length,
+      overdueIEPs: filteredIEPs.filter(iep => getIEPStatus(iep) === 'Partially Completed').length,
+      pendingIEPs: filteredIEPs.filter(iep => getIEPStatus(iep) === 'Not Completed').length,
+      notdefinedIEPs: filteredIEPs.filter(iep => getIEPStatus(iep) === 'Not Defined').length
     };
-  };
-
-  const toggleSection = (id) => {
-    setExpandedSections(prev => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  // NEW: Check if any detail view is open
-  const isDetailViewOpen = () => {
-    return showCharts || showOperationalGoalsList || selectedIEPDetail !== null;
-  };
-
-  // NEW: Immediate navigation without checking detail views
-  const handleDepartmentClickImmediate = (deptId, deptName) => {
-    setSelectedDepartment(deptId);
-    setSelectedIEP(null);
-    setSelectedIEPName('');
-    // Clear all view states to show IEP table
-    setShowCharts(false);
-    setShowOperationalGoalsList(false);
-    setSelectedIEPDetail(null);
-    setChartDeptId(null);
-    setShowDistrictCharts(false);
-
-    if (activePage === 'scorecard' && selectedScorecard) {
-      const scId = parseInt(selectedScorecard.replace('scorecard-', ''));
-      const deptNumeric = parseInt(deptId.replace('dept-', ''));
-      const filtered = masterAllIEPs.filter(iep => iep.OrganizationalGoals?.Id === scId && iep.Departments?.Id === deptNumeric);
-      setDisplayedIEPs(filtered);
-    } else {
-      const deptNumeric = parseInt(deptId.replace('dept-', ''));
-      const filtered = masterAllIEPs.filter(iep => iep.Departments?.Id === deptNumeric);
-      setDisplayedIEPs(filtered);
-      if (activePage !== 'scorecard') setSelectedScorecard(null);
-    }
-    if (isMobile) {
-      setSidebarOpen(false);
-    }
   };
 
   // NEW: Wrapper that handles queueing
   const handleDepartmentClick = (deptId, deptName) => {
     if (isDetailViewOpen()) {
-      // Queue the navigation and close detail views
       navigationQueue.current = { type: 'department', deptId, deptName };
-      setShowCharts(false);
-      setShowOperationalGoalsList(false);
-      setSelectedIEPDetail(null);
-      setChartDeptId(null);
+      clearViewStates(setShowCharts, setShowOperationalGoalsList, setSelectedIEPDetail, setChartDeptId, setShowDistrictCharts);
     } else {
       handleDepartmentClickImmediate(deptId, deptName);
-    }
-  };
-
-  // NEW: Immediate navigation
-  const handleScorecardClickImmediate = (scoreId) => {
-    setSelectedScorecard(scoreId);
-    setSelectedDepartment(null);
-    setSelectedIEP(null);
-    setSelectedIEPName('');
-    // Clear all view states to show IEP table
-    setShowCharts(false);
-    setShowOperationalGoalsList(false);
-    setSelectedIEPDetail(null);
-    setChartDeptId(null);
-    setShowDistrictCharts(false);
-    const scId = parseInt(scoreId.replace('scorecard-', ''));
-    const filtered = masterAllIEPs.filter(iep => iep.OrganizationalGoals?.Id === scId);
-    setDisplayedIEPs(filtered);
-    if (isMobile) {
-      setSidebarOpen(false);
     }
   };
 
@@ -709,74 +674,9 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
   const handleScorecardClick = (scoreId) => {
     if (isDetailViewOpen()) {
       navigationQueue.current = { type: 'scorecard', scoreId };
-      setShowCharts(false);
-      setShowOperationalGoalsList(false);
-      setSelectedIEPDetail(null);
-      setChartDeptId(null);
+      clearViewStates(setShowCharts, setShowOperationalGoalsList, setSelectedIEPDetail, setChartDeptId, setShowDistrictCharts);
     } else {
       handleScorecardClickImmediate(scoreId);
-    }
-  };
-
-  // NEW: Immediate navigation
-  const handleIEPClickImmediate = (scorecardId: string, deptId: string, tagId: string, tagName: string) => {
-    setSelectedScorecard(scorecardId);
-    setSelectedDepartment(deptId);
-    setSelectedIEP(tagId);
-    setSelectedIEPName(tagName);
-    // Clear all view states to show IEP table
-    setShowCharts(false);
-    setShowOperationalGoalsList(false);
-    setSelectedIEPDetail(null);
-    setChartDeptId(null);
-    setShowDistrictCharts(false);
-
-    const newExpandedSections = { ...expandedSections };
-    newExpandedSections[scorecardId] = true;
-    newExpandedSections[deptId] = true;
-
-    if (tagId?.startsWith('sub-')) {
-      newExpandedSections[tagId] = true;
-    }
-
-    if (tagId?.startsWith('subsub-')) {
-      const parts = tagId.replace('subsub-', '').split('-');
-      const subId = `sub-${parts[0]}`;
-      newExpandedSections[subId] = true;
-      newExpandedSections[tagId] = true;
-    }
-
-    if (tagId?.startsWith('tag-')) {
-      newExpandedSections[tagId] = true;
-    }
-
-    setExpandedSections(newExpandedSections);
-
-    const scId = scorecardId ? parseInt(scorecardId.replace('scorecard-', '')) : null;
-    const deptNumeric = deptId ? parseInt(deptId.replace('dept-', '')) : null;
-    let filtered = masterAllIEPs;
-    if (scId) filtered = filtered.filter(iep => iep.OrganizationalGoals?.Id === scId);
-    if (deptNumeric) filtered = filtered.filter(iep => iep.Departments?.Id === deptNumeric);
-
-    // Handle tag clicks (from OrganizationGoalAlignment)
-    if (tagId?.startsWith('tag-')) {
-      const tagNameFromId = tagId.replace('tag-', '');
-      filtered = filtered.filter(iep => {
-        const orgAlignments = iep.OrganizationGoalAlignment || [];
-        return orgAlignments.some((org: any) => org.Tag?.trim() === tagNameFromId);
-      });
-    } else if (tagId?.startsWith('subsub-')) {
-      const parts = tagId.replace('subsub-', '').split('-');
-      const subId = Number(parts[0]);
-      const ssId = Number(parts[1]);
-      filtered = filtered.filter(iep => iep.SubDepartments?.Id === subId && iep.SubSubDepartments?.Id === ssId);
-    } else if (tagId?.startsWith('sub-')) {
-      const subId = Number(tagId.replace('sub-', ''));
-      filtered = filtered.filter(iep => iep.SubDepartments?.Id === subId);
-    }
-    setDisplayedIEPs(filtered);
-    if (isMobile) {
-      setSidebarOpen(false);
     }
   };
 
@@ -784,10 +684,7 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
   const handleIEPClick = (scorecardId: string, deptId: string, tagId: string, tagName: string) => {
     if (isDetailViewOpen()) {
       navigationQueue.current = { type: 'iep', scorecardId, deptId, tagId, tagName };
-      setShowCharts(false);
-      setShowOperationalGoalsList(false);
-      setSelectedIEPDetail(null);
-      setChartDeptId(null);
+      clearViewStates(setShowCharts, setShowOperationalGoalsList, setSelectedIEPDetail, setChartDeptId, setShowDistrictCharts);
     } else {
       handleIEPClickImmediate(scorecardId, deptId, tagId, tagName);
     }
@@ -833,14 +730,9 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
       }));
 
       // Filter and display IEPs for this department
-      const filtered = masterAllIEPs.filter(
-        item => item.OrganizationalGoals?.Id === scorecardId && item.Departments?.Id === deptId
-      );
+      const filtered = filterIEPsByScorecardAndDepartment(masterAllIEPs, scorecardId, deptId);
       setDisplayedIEPs(filtered);
-
-      if (isMobile) {
-        setSidebarOpen(false);
-      }
+      closeSidebarOnMobile(isMobile, setSidebarOpen);
     }
   };
 
@@ -909,18 +801,6 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
       });
   };
 
-  const parseSharePointDate = (value: any): Date | null => {
-    if (!value) return null;
-    if (typeof value === 'string' && value.startsWith('/Date(')) {
-      const match = value.match(/\/Date\((\d+)\)\//);
-      if (match) {
-        const ms = parseInt(match[1], 10);
-        return new Date(ms);
-      }
-    }
-    const parsed = new Date(value);
-    return isNaN(parsed.getTime()) ? null : parsed;
-  };
 
   const getRecentActivities = () => {
     return recentactivity
@@ -1243,53 +1123,7 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
     }
   };
 
-  const getUserInitials = (name: string) => {
-    if (!name) return 'U';
-    const parts = name.split(' ');
-    if (parts.length >= 2) {
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    }
-    return name[0].toUpperCase();
-  };
 
-  // const getUserRole = async () => {
-  //   try {
-  //     const currentUser = await sp.web.currentUser();
-  //     const items = await sp.web.lists
-  //       .getByTitle("Users")
-  //       .items.select("ID", "Role", "User/Id", "User/Title", "User/EMail")
-  //       .expand("User")
-  //       .filter(`User/Id eq ${currentUser.Id}`)();
-  //     if (items.length > 0) {
-  //       const roleValue = items[0].Role;
-  //       setUserRole(roleValue);
-  //     } else {
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: "Access Denied",
-  //         text: "You do not have access! Contact system administrator.",
-  //         timer: 4000,
-  //         timerProgressBar: true,
-  //         allowOutsideClick: false,
-  //         allowEscapeKey: false,
-  //       }).then(() => {
-  //         window.location.href = "https://mcckc.sharepoint.com/sites/IEPManagement"
-  //       });
-  //     }
-  //   } catch (err) {
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: "Access Denied",
-  //       text: "You do not have access! Contact system administrator.",
-  //       timer: 4000,
-  //       timerProgressBar: true,
-  //       allowOutsideClick: false,
-  //       allowEscapeKey: false,
-  //     }).then(() => {
-  //       window.location.href = "https://mcckc.sharepoint.com/sites/IEPManagement"
-  //     });
-  //   }
-  // };
 
   const getUserRole = async () => {
     try {
@@ -1353,49 +1187,11 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
 
 
 
-  const handleLogout = async () => {
-    // 1. Clear your app's local state / persisted data
-    localStorage.removeItem('metropolitan-college-activePage');
-    localStorage.removeItem('metropolitan-college-expandedSections');
-    localStorage.removeItem('metropolitan-college-selectedDepartment');
-    localStorage.removeItem('metropolitan-college-selectedScorecard');
-    localStorage.removeItem('metropolitan-college-selectedIEP');
-    localStorage.removeItem('metropolitan-college-showCharts');
-    localStorage.removeItem('metropolitan-college-chartDeptId');
-    localStorage.removeItem('metropolitan-college-showOperationalGoalsList');
-    localStorage.removeItem('metropolitan-college-chartMode');
-    localStorage.removeItem('metropolitan-college-showDistrictCharts');
-    localStorage.removeItem('metropolitan-college-districtChartMode');
-    localStorage.clear();
-    // 2. Optional nice feedback
-    toast.info('Signing you out securely...', { autoClose: 2000 });
-    localStorage.clear();
-    window.location.href = "/_layouts/15/SignOut.aspx";
-  };
-
   if (loading) {
     return (
-      <div className="d-flex vh-100 bg-white justify-content-center align-items-center">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
+      <Loader fullScreen text="Loading..." />
     );
   }
-
-  const getRecentIEPGoals = () => {
-    return masterAllIEPs
-      .filter(iep => iep.OperationalGoal)
-      .sort((a, b) => new Date(b.Modified || b.Created).getTime() - new Date(a.Modified || a.Created).getTime())
-      .slice(0, 5)
-      .map(iep => ({
-        Id: iep.Id,
-        Title: iep.OperationalGoal,
-        Department: iep.Departments?.DepartmentName || 'General',
-        Status: getIEPStatus(iep),
-        Date: new Date(iep.Modified || iep.Created).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', }),
-      }));
-  };
 
   return (
     <>
@@ -1506,9 +1302,9 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
                   <div className="position-relative" ref={notifDropdownRef}>
                     <div className="position-relative cursor-pointer" onClick={() => setShowNotifications(!showNotifications)} style={{ cursor: 'pointer' }} >
                       <Bell style={{ width: isMobile ? '18px' : '20px', height: isMobile ? '18px' : '20px', color: '#6c757d' }} />
-                      {getRecentIEPGoals().length > 0 && (
+                      {getRecentIEPGoals(masterAllIEPs).length > 0 && (
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger" style={{ fontSize: '0.65rem', minWidth: isMobile ? '16px' : '18px' }} >
-                          {getRecentIEPGoals().length}
+                          {getRecentIEPGoals(masterAllIEPs).length}
                         </span>
                       )}
                     </div>
@@ -1516,11 +1312,11 @@ const CustomMetropolitanCollegeDirectory: React.FC<ICustomMetropolitanCollegeDir
                       <div className="position-absolute bg-white border rounded shadow-lg notification-dropdown" style={{ top: '45px', right: 0, minWidth: isMobile ? '250px' : '300px', maxWidth: isMobile ? '90vw' : '350px', zIndex: 9999999, animation: 'slideDown 0.2s ease', }} >
                         <div className="p-3 border-bottom d-flex justify-content-between align-items-center">
                           <h6 className={`mb-0 fw-semibold text-dark ${isMobile ? 'small' : ''}`}>Recent Goals</h6>
-                          <span className="badge bg-light text-dark small"> {getRecentIEPGoals().length} </span>
+                          <span className="badge bg-light text-dark small"> {getRecentIEPGoals(masterAllIEPs).length} </span>
                         </div>
                         <div className="p-2" style={{ maxHeight: isMobile ? '200px' : '250px', overflowY: 'auto' }}>
-                          {getRecentIEPGoals().length > 0 ? (
-                            getRecentIEPGoals().map((iep) => (
+                          {getRecentIEPGoals(masterAllIEPs).length > 0 ? (
+                            getRecentIEPGoals(masterAllIEPs).map((iep) => (
                               <div key={iep.Id} className="d-flex align-items-start p-2 rounded hover-bg-light" style={{ cursor: 'pointer', transition: 'background-color 0.2s', }}
                                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8f9fa')}
                                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')} >

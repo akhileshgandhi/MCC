@@ -5,6 +5,7 @@ import '@pnp/sp/webs';
 import '@pnp/sp/lists';
 import '@pnp/sp/items';
 import { DefinitionsTableProps } from '../../types/DefinitionsTableProps';
+import Loader from '../../Common/Loader';
 
 export default function DefinitionsTable({ sp, exportMode = false }: DefinitionsTableProps) {
   const [section1Data, setSection1Data] = useState([]);
@@ -84,10 +85,7 @@ export default function DefinitionsTable({ sp, exportMode = false }: Definitions
             <div className="mb-0">Definitions</div>
           </div>
           <div className="card-body text-center py-5">
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-            <p className="mt-3">Loading definitions from SharePoint...</p>
+            <Loader size="medium" text="Loading definitions from SharePoint..." />
           </div>
         </div>
       </div>

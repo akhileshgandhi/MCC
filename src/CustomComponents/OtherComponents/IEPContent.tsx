@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Loader from '../../Common/Loader';
 
 const IEPContent = ({
   selectedDepartment,
@@ -14,9 +15,7 @@ const IEPContent = ({
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading IEPs...</span>
-        </div>
+        <Loader size="medium" text="Loading IEPs..." />
       </div>
     );
   }
