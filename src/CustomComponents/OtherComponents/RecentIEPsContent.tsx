@@ -1,17 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Eye, PencilLine, Trash2, Filter, Download } from 'lucide-react';
 import DOMPurify from 'dompurify';
-
-interface RecentIEPsContentProps {
-  allIEPs: any[];
-  onIEPClick?: (iep: any) => void;
-  onEditIEP?: (iep: any) => void;
-  onDeleteIEP?: (iep: any) => void;
-  canEditIEP?: (iep: any) => boolean;
-  canDeleteIEP?: (iep: any) => boolean;
-  isMobile?: boolean;
-  isTablet?: boolean;
-}
+import { RecentIEPsContentProps } from '../../types/RecentIEPsContentProps';
 
 const RecentIEPsContent: React.FC<RecentIEPsContentProps> = ({
   allIEPs = [],

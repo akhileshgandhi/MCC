@@ -1,17 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Search } from 'lucide-react';
-
-interface UserMentionPickerProps {
-  sp: any;
-  onUsersSelected: (users: any[]) => void;
-  selectedUsers: any[];
-}
-
-interface User {
-  id: number;
-  title: string;
-  email: string;
-}
+import { UserMentionPickerProps } from '../../types/UserMentionPickerProps';
+import { User } from '../../types/User';
 
 const UserMentionPicker: React.FC<UserMentionPickerProps> = ({ 
   sp, 

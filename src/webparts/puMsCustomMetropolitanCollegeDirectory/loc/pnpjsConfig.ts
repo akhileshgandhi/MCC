@@ -33,7 +33,7 @@ export const getSP = (context?: WebPartContext): SPFI => {
   }
   return _sp;
 }
-var _spurl: SPFI;
+let _spurl: SPFI;
 export const getSPContext = (context?: WebPartContext): SPFI => {
   if (context !== null && (_spurl === undefined || _spurl === null)) {
     //You must add the @pnp/logging package to include the PnPLogging behavior it is no longer a peer dependency

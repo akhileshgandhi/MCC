@@ -2,37 +2,9 @@ import React from 'react';
 import { Search, ChevronRight, ChevronDown, FileText, Archive } from 'lucide-react';
 import "../CustomCss/Sidebar.scss";
 import { ArchivedIEPHierarchy } from '../../APIsServices/ArchivedIEPService';
-
-interface HierarchicalItem {
-  id: string;
-  name: string;
-  type?: 'department' | 'scorecard' | 'section' | string;
-  description?: string;
-  year?: string;
-  head?: string;
-  children?: HierarchicalItem[];
-  iepCount?: number;
-  iepIds?: number[];
-  departmentId?: number;
-  scorecardId?: number;
-  directIepCount?: number;
-}
-
-interface SharePointIEP {
-  Id: number;
-  ID: number;
-  Title: string | null;
-  OperationalGoal: string;
-  OperationalTactic: string;
-  PerformanceMeasure: string;
-  Target: string;
-  BudgetImpactDescription: string;
-  OrganizationalGoals: Array<{ Id: number; ScorecardName: string; Vision: string; }>;
-  OrganizationGoalAlignment: Array<{ Id: number; OrganizationGoalAlignment: string; Value: string; }>;
-  Departments: Array<{ Id: number; DepartmentName: string; DepartmentShortName: string; }>;
-  SharedServiceCampusGoalAlignment: Array<{ Id: number; Departments: { DepartmentName: string; }; ThreeYRSharedService: string; }>;
-  HLCAlignment: Array<{ Id: number; HLCAlignment: string; Description: string; }>;
-}
+import { HierarchicalItem } from '../../types/HierarchicalItem';
+import { SharePointIEP } from '../../types/SharePointIEP';
+import { SidebarProps } from '../../types/SidebarProps';
 
 export const Sidebar = ({
   sidebarOpen,
@@ -59,32 +31,7 @@ export const Sidebar = ({
   isMobile,
   isTablet,
   userRole
-}: {
-  sidebarOpen: boolean;
-  activePage: string;
-  searchTerm: string;
-  onSearchChange: (term: string) => void;
-  currentData: any[];
-  expandedSections: Record<string, boolean>;
-  onToggleSection: (id: string) => void;
-  selectedDepartment: string | null;
-  selectedScorecard: string | null;
-  selectedIEP: string | null;
-  onDepartmentClick: (id: string, name: string) => void;
-  onScorecardClick: (id: string, name: string) => void;
-  onIEPClick: (scorecardId: string, deptId: string, tagId: string, tagName: string) => void;
-  getSafeExpandedState: (id: string) => boolean;
-  onPageChange: (page: string) => void;
-  iepsData?: SharePointIEP[];
-  archivedIEPs?: ArchivedIEPHierarchy[];
-  onArchivedDocumentClick?: (documentId: string, documentUrl: string) => void;
-  onArchivedYearClick?: (yearId: string) => void;
-  selectedArchivedDocument?: string | null;
-  selectedArchivedYear?: string | null;
-  isMobile?: boolean;
-  isTablet?: boolean;
-  userRole:string;
-}) => {
+}: SidebarProps) => {
   console.log('Sidebar currentData:', currentData);
   console.log('Sidebar iepsData:', iepsData);
   const hasIEPs = iepsData && iepsData.length > 0;

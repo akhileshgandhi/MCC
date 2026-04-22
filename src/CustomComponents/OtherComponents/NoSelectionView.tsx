@@ -1,12 +1,13 @@
 // components/NoSelectionView.tsx
 import React from 'react';
 import DOMPurify from 'dompurify';
+import { NoSelectionViewProps } from '../../types/NoSelectionViewProps';
 
 /**
  * Default view when no scorecard/department/IEP is selected
  * Shows stats cards and list of all scorecards
  */
-const NoSelectionView = ({ stats, organizationalScorecards }: any) => {
+const NoSelectionView = ({ stats, organizationalScorecards }: NoSelectionViewProps) => {
   return (
     <div className="container-fluid">
       <h1 className="h2 mb-4 text-dark">Scorecards</h1>

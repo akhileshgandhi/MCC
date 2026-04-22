@@ -27,6 +27,7 @@ import DonutChart from '../OtherComponents/DonutChartLegendDemo/DonutChartLegend
 import OperationalGoalsList from './OperationalGoalsList';
 import { Check, PencilLine } from 'lucide-react';
 import ReactQuill from 'react-quill';
+import { Column } from '../../types/IEPTableProps';
 
 interface IEPFormData {
   OperationalGoal: string;
@@ -297,20 +298,20 @@ const ScorecardContent = ({
   // ──────────────────────────────────────────────────────────────
   // COLUMNS
   // ──────────────────────────────────────────────────────────────
-  const [columns, setColumns] = useState({
-    department: { label: 'Department', visible: false, sortKey: 'Department', bgColor: '#004C8E' },
-    subDepartment: { label: 'Sub-Department', visible: false, sortKey: 'SubDepartment', bgColor: '#004C8E' },
-    organizationalGoal: { label: 'Organizational Goal(s) Alignment', visible: true, sortKey: 'OrganizationGoalAlignment', bgColor: '#004C8E' },
-    threeYearGoal: { label: '3-YR Shared Service/Unit Goal(S)', visible: true, sortKey: 'SharedServiceCampusGoalAlignment', bgColor: '#004C8E' },
-    hlcCriteria: { label: 'HLC Criteria Alignment', visible: true, sortKey: 'HLCAlignment', bgColor: '#004C8E' },
-    operationalTactic: { label: 'Operational Tactic', visible: true, sortKey: 'OperationalTactic', bgColor: '#004C8E' },
-    performanceMeasure: { label: 'Performance Measure', visible: true, sortKey: 'PerformanceMeasure', bgColor: '#004C8E' },
-    target: { label: 'Target', visible: true, sortKey: 'Target', bgColor: '#004C8E' },
-    performanceMeasureResults: { label: 'Performance Measure Results', visible: true, sortKey: 'PerformanceMeasureResults', responsiveClass: 'd-none d-md-table-cell', bgColor: '#FFBF32' },
-    continuousImprovement: { label: 'Continuous Improvement', visible: true, sortKey: 'ContinuousImprovement', responsiveClass: 'd-none d-md-table-cell', bgColor: '#FFBF32' },
-    resultsMet: { label: 'Results Met', visible: true, sortKey: 'ResultsMet', bgColor: '#FFBF32' },
+  const [columns, setColumns] = useState<Record<string, Column>>({
+    department: { key: 'department', label: 'Department', visible: false, sortKey: 'Department', bgColor: '#004C8E' },
+    subDepartment: { key: 'subDepartment', label: 'Sub-Department', visible: false, sortKey: 'SubDepartment', bgColor: '#004C8E' },
+    organizationalGoal: { key: 'organizationalGoal', label: 'Organizational Goal(s) Alignment', visible: true, sortKey: 'OrganizationGoalAlignment', bgColor: '#004C8E' },
+    threeYearGoal: { key: 'threeYearGoal', label: '3-YR Shared Service/Unit Goal(S)', visible: true, sortKey: 'SharedServiceCampusGoalAlignment', bgColor: '#004C8E' },
+    hlcCriteria: { key: 'hlcCriteria', label: 'HLC Criteria Alignment', visible: true, sortKey: 'HLCAlignment', bgColor: '#004C8E' },
+    operationalTactic: { key: 'operationalTactic', label: 'Operational Tactic', visible: true, sortKey: 'OperationalTactic', bgColor: '#004C8E' },
+    performanceMeasure: { key: 'performanceMeasure', label: 'Performance Measure', visible: true, sortKey: 'PerformanceMeasure', bgColor: '#004C8E' },
+    target: { key: 'target', label: 'Target', visible: true, sortKey: 'Target', bgColor: '#004C8E' },
+    performanceMeasureResults: { key: 'performanceMeasureResults', label: 'Performance Measure Results', visible: true, sortKey: 'PerformanceMeasureResults', responsiveClass: 'd-none d-md-table-cell', bgColor: '#FFBF32' },
+    continuousImprovement: { key: 'continuousImprovement', label: 'Continuous Improvement', visible: true, sortKey: 'ContinuousImprovement', responsiveClass: 'd-none d-md-table-cell', bgColor: '#FFBF32' },
+    resultsMet: { key: 'resultsMet', label: 'Results Met', visible: true, sortKey: 'ResultsMet', bgColor: '#FFBF32' },
     // futureBudgetImpact: { label: 'Future Budget Impact', visible: true, sortKey: 'FutureBudgetImpact', responsiveClass: 'd-none d-md-table-cell', bgColor: '#FFBF32' },
-    ifYesPleaseDescribe: { label: 'Describe future budget impact', visible: true, sortKey: 'IfYesPleaseDescribe', responsiveClass: 'd-none d-md-table-cell', bgColor: '#FFBF32' },
+    ifYesPleaseDescribe: { key: 'ifYesPleaseDescribe', label: 'Describe future budget impact', visible: true, sortKey: 'IfYesPleaseDescribe', responsiveClass: 'd-none d-md-table-cell', bgColor: '#FFBF32' },
     // budgetImpact: { label: 'Budget Impact Description', visible: false, sortKey: 'BudgetImpactDescription', responsiveClass: 'd-none d-md-table-cell', bgColor: '#FFBF32' },
   });
 

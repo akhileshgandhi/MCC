@@ -3,6 +3,7 @@ import { ChevronDown, ChevronRight, ArrowUp, ArrowDown, PencilLine, Eye, Trash2,
 import DOMPurify from 'dompurify';
 import { stripHtml } from '../HelperCustomComponents/Alluse';
 import Swal from 'sweetalert2';
+import { IEPTableProps } from '../../types/IEPTableProps';
 
 // Helper function to decode HTML entities and sanitize
 const decodeAndSanitizeHtml = (html: string): string => {
@@ -38,7 +39,7 @@ const IEPTable = ({
   canEditIEP,
   canDeleteIEP,
   selScorecard
-}: any) => {
+}: IEPTableProps) => {
   const [showColumnDropdown, setShowColumnDropdown] = useState(false);
   const [internalSearch, setInternalSearch] = useState('');
   console.log(selScorecard, "selScorecard");

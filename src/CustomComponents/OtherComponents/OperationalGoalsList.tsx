@@ -3,6 +3,7 @@ import { Search, Filter, ChevronDown, ChevronRight, Target, Users, Building, Che
 import DOMPurify from 'dompurify';
 import { stripHtml } from '../HelperCustomComponents/Alluse';
 import IEPDetailsView from './IEPDetailsView';
+import { OperationalGoalsListProps } from '../../types/OperationalGoalsListProps';
 
 // Helper function to decode HTML entities and sanitize
 const decodeAndSanitizeHtml = (html: string): string => {
@@ -12,33 +13,6 @@ const decodeAndSanitizeHtml = (html: string): string => {
   const decoded = textarea.value;
   return DOMPurify.sanitize(decoded);
 };
-
-interface OperationalGoalsListProps {
-  selectedDepartment: string | null;
-  selectedScorecard: string | null;
-  selectedIEP: string | null;
-  ieps: any[];
-  stats: any;
-  loading: boolean;
-  departments: any[];
-  organizationalScorecards: any[];
-  allIEPs: any[];
-  sp: any;
-  currentUser: any;
-  usersList: any[];
-  onIEPCreated: () => void;
-  onSelectDepartment: (id: string) => void;
-  isMobile: boolean;
-  isTablet: boolean;
-  userRole: string;
-  handleIEPClick: (scorecardId: string, deptId: string, tagId: string, tagName: string) => void;
-  searchTerm: string;
-  chartDeptId: any;
-  onSearchChange: (term: string) => void;
-  onBack: () => void;
-  districtMode?: boolean;
-  onEditIEP?: (iep: any) => void;
-}
 
 const OperationalGoalsList: React.FC<OperationalGoalsListProps> = ({
   selectedDepartment,

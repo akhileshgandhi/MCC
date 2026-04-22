@@ -217,7 +217,7 @@ const IEPSidebarForm: React.FC<Props> = ({
                       />
                     </div>
                   </div>
-                  
+
                   {/* Display Global Goal for the selected scorecard */}
                   {/* {selScorecard?.GlobalGoal && (
                     <div className="row mb-3">
@@ -253,7 +253,7 @@ const IEPSidebarForm: React.FC<Props> = ({
                       </div>
                     </div>
                   )} */}
-                  
+
                   <div className="row">
                     <div className="col-12 ">
                       <div className="mb-3">

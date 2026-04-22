@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { stripHtml } from '../HelperCustomComponents/Alluse';
+import { MultiSelectDropdownProps } from '../../types/MultiSelectDropdownProps';
 
 /**
  * Reusable Multi-Select Dropdown Component
@@ -17,14 +18,7 @@ const MultiSelectDropdown = ({
   onChange,
   getOptionLabel,
   placeholder = "Select items..."
-}: {
-  label: string;
-  options: any[];
-  selected: string[];
-  onChange: (selected: string[]) => void;
-  getOptionLabel: (option: any) => string;
-  placeholder?: string;
-}) => {
+}: MultiSelectDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

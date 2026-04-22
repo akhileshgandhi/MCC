@@ -6,9 +6,10 @@ import "../../../CustomAssets/CustomFonts/Figtree/Figtree-VariableFont_wght.ttf"
 import "../../../CustomCss/main.scss";
 import { getSP, getGraph } from '../loc/pnpjsConfig';
 import { GraphFI } from '@pnp/graph';
+import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { IPuMsCustomMetropolitanCollegeDirectoryProps } from '../../../types/IPuMsCustomMetropolitanCollegeDirectoryProps';
 
-const PuMsCustomMetropolitanCollegeDirectory = (props: IPuMsCustomMetropolitanCollegeDirectoryProps) => {
+const PuMsCustomMetropolitanCollegeDirectory = (props: IPuMsCustomMetropolitanCollegeDirectoryProps): React.ReactElement => {
   const sp: SPFI = getSP();
   const graph: GraphFI = getGraph();
   return (

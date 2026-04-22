@@ -1,17 +1,7 @@
 import * as React from 'react';
 import { X } from 'lucide-react';
 import '../CustomCss/Dashboard.scss'; // reuse your existing styling setup
-
-interface UserProfileModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  user: {
-    name: string;
-    email: string;
-    contactNumber?: string;
-  };
-  usersList:any;
-}
+import { UserProfileModalProps } from '../../types/UserProfileModalProps.js';
 
 const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, user,usersList }) => {
     console.log(usersList,'usersList');

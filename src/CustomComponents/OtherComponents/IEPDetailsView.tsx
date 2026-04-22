@@ -390,7 +390,7 @@ const IEPDetailsView = ({ iep, onEdit, isMobile, isTablet, setShowCharts, setSho
               paddingLeft: isMobile ? '0.5rem' : '1rem',
               paddingRight: isMobile ? '0.5rem' : '1rem'
             }}>
-            
+
             <InfoCard
               title="Operational Goal"
               content={iep.OperationalGoal || 'N/A'}

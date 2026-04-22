@@ -21,7 +21,7 @@ export default class PuMsCustomMetropolitanCollegeDirectoryWebPart extends BaseC
 
   private _isDarkTheme: boolean = false;
   private _environmentMessage: string = '';
-  private _onPopState: ((ev: PopStateEvent) => any) | null = null;
+  private _onPopState: ((ev: PopStateEvent) => void) | null = null;
 
   public render(): void {
     const element: React.ReactElement<IPuMsCustomMetropolitanCollegeDirectoryProps> = React.createElement(
